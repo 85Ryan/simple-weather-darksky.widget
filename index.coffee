@@ -4,6 +4,10 @@ apiKey: 'YOUR DARKSKY APIKY'
 # TODO-2: Add the units format (si or us) below
 units: 'si'
 
+# TODO-3: Add the weather summary language
+# like: en, zh...(https://darksky.net/dev/docs)
+lang: 'zh'
+
 # Refresh every 600 seconds
 refreshFrequency: 600000
 
@@ -26,9 +30,9 @@ afterRender: (domEl) ->
 
     @refresh()
 
-makeCommand: (apiKey, location, units) ->
+makeCommand: (apiKey, location, units, lang) ->
   exclude  = "alerts,flags"
-  "curl -sS 'https://api.darksky.net/forecast/#{apiKey}/#{location}?units=#{units}&exclude=#{exclude}'"
+  "curl -sS 'https://api.darksky.net/forecast/#{apiKey}/#{location}?units=#{units}&exclude=#{exclude}&lang=#{lang}'"
 
 update: (output, domEl) ->
   data  = JSON.parse(output)
