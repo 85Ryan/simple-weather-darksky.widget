@@ -1,4 +1,4 @@
-# simple-weather-widget
+# simple-weather-DarkSky.widget
 A simple weather widget for [Übersicht](http://tracesof.net/uebersicht/) by DarkSky API.
 
 ## ScreenShot
