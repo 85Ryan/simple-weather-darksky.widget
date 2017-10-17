@@ -32,7 +32,6 @@ makeCommand: (apiKey, location, units) ->
 
 update: (output, domEl) ->
   data  = JSON.parse(output)
-  console.log(data)
   today = data.daily?.data[0]
   return unless today?
   
