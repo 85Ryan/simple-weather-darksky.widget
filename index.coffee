@@ -1,17 +1,19 @@
 # TODO-1: Add DarkSky api key below
-apiKey: 'YOUR DARKSKY APIKY'
+apiKey: 'YOUR DARKSKY APIKEY'
 
-# TODO-2: Add the units format (si or us) below
+# TODO-2: Set the units format (si or us) below
 units: 'si'
 
-# TODO-3: Add the weather summary language
+# TODO-3: Set the weather summary language
 # like: en, zh...(https://darksky.net/dev/docs)
 lang: 'zh'
 
-# Refresh every 600 seconds
+# Refresh every 60 seconds
 refreshFrequency: 600000
 
 command: "echo {}"
+
+city: "echo {}"
 
 render: (o) -> """
   <div class='weather'>
@@ -26,10 +28,10 @@ afterRender: (domEl) ->
   geolocation.getCurrentPosition (e) =>
     coords     = e.position.coords
     [lat, lon] = [coords.latitude, coords.longitude]
-    @command   = @makeCommand(@apiKey, "#{lat},#{lon}", @units)
-
+    @command   = @makeCommand(@apiKey, "#{lat},#{lon}", @units, @lang)
+    @city = e.address.city
     @refresh()
-
+    
 makeCommand: (apiKey, location, units, lang) ->
   exclude  = "alerts,flags"
   "curl -sS 'https://api.darksky.net/forecast/#{apiKey}/#{location}?units=#{units}&exclude=#{exclude}&lang=#{lang}'"
@@ -40,6 +42,7 @@ update: (output, domEl) ->
   return unless today?
   
   icon = data.currently.icon
+  city = @city
 
   if @units != ''
     if @units == "si"
@@ -56,8 +59,8 @@ update: (output, domEl) ->
     """
 
   $(domEl).find('.summary').html """
-    <p>#{data.currently.summary} | #{Math.round((data.daily.data[0].temperatureMin)*10)/10}-#{Math.round((data.daily.data[0].temperatureMax)*10)/10}˚</p>
-    <p>#{data.hourly.summary}</p>
+    <p>#{city} | #{data.currently.summary}, #{Math.round((data.daily.data[0].temperatureMin)*10)/10}-#{Math.round((data.daily.data[0].temperatureMax)*10)/10}˚</p>
+    <p>#{data.daily.summary}</p>
   """
   $(domEl).find('.icon')[0].innerHTML = @getIcon(icon)
 
@@ -80,7 +83,7 @@ getIcon: (icon) ->
       
 style: """
   top: 30px
-  left: 250px
+  left: 50px
   color: #fff
   text-shadow: 0 0 1px rgba(#000, 0.3)
   font-family: Helvetica Neue
@@ -107,7 +110,7 @@ style: """
 
   .temp
     vertical-align: middle
-    padding-left: 85px
+    padding-left: 80px
     font-weight: 200
     font-size: 60px
     line-height: 60px
