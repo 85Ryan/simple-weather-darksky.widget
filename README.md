@@ -11,7 +11,8 @@ A simple weather widget for [Übersicht](http://tracesof.net/uebersicht/) by Dar
 3. Put the `simple-weather-darksky.widget` file in your Übersicht widget folder.
 4. This widget requires an API key from the [DarkSky API](https://darksky.net/dev). Before you use this widget, open `index.coffee`, and change the variable apiKey to the key you got from DarkSky API.
 5. You can change the units format (si or us) in `index.coffee`.
-6. The widget uses the new Geolocation API to find your location automatically. Requires Übersicht 0.5 or later to work.
+6. You can set the weather summary language, like en, zh...(other language code see this: https://darksky.net/dev/docs)
+7. The widget uses the new Geolocation API to find your location automatically. Requires Übersicht 0.5 or later to work.
 
 ## OpenWeatherMap VERSION
 If you want to use the OpenWeatherMap API, see this:
